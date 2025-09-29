@@ -1,0 +1,62 @@
+Om Biyani
+CSCI Section E
+
+Implementing Grover's Algorithm in C++
+PROBLEM DESCRIPTION: 
+The goal of this project is to implement Grover’s Quantum Algorithm in C++. 
+This problem is a little silly because it is horribly inefficient without the tools of quantum computing, 
+but for understanding the concepts this model works fine. Grover's quantum algorithm is a search 
+method that can find a value in a matrix, in O(2n/2) complexity compared to classical computing O(2n-1)
+complexity. Grover’s Quantum Algorithm will be explained in bra-ket notation which can be summed as <||> 
+is a scalar product and |><| is a tensor product, each operation can be considered one computation through
+leveraging the wave nature of qubits.  First we start by encoding 4 qubits in the standard state, a matrix 
+of 1s that is then normalized represented by S in my code. Then we “encode” G, this would be making a wave
+to represent the matrix G. For our code since I cannot do that with classical computing methods; instead, 
+I had to do this as initializing a size-16 vector representing the wave. Using the S and G we now prepare
+the transformation matrices US and UG.  This is completed by UG = I - 2|G><G|, where I is a size 16X16
+identity matrix, and  2|G><G| is the tensor of G with itself times 2. This operation is computationally
+expensive classical computing, but could be considered one operation in a 4 qubit computer. Next repeating
+for S as US = I - 2|S><S|. 
+Next we perform the operation sequence.  Ψ = |Ug > |S> , this is an inner product producing a single dimension
+vector representing the transformed state of the 4 qubit system. Then, Ψ = |US> |UG> |S>, this represents one
+iteration.  This corresponding wave is the probability of the 4 qubit system returning the correct value for
+the, the probability is measured through taking the squared value of <Ψ||S>, and squared value of 
+<Ψ||G>. This is one iteration. These were plotted to show the algorithm in simulation. 
+
+PROGRAM DOCUMENTATION: 
+To run the program, the program needs to be built with SFML.  First, enter the matrix.txt file and change 
+the value of the cell from 0 to 1 in the location where you’d like to hide the value, all other values should 
+be zero, the program will read the first location of the value. Next, run the program after building with make;
+it is called final.exe. This will display the simulated wave values. It should be noted, unless there was failure
+in the hardware of your computer the simulation probabilities should be the same each iteration, this is because
+classical computers are built with scientific precision in mind so there will be no variability in the 
+probability, quantum computers differ in this because they have less accurate correcting functions. 
+You can use q, esp and the x to close the window, pressing g will hide the G line and s will hide the S lines. 
+
+CLASS DESCRIPTION:
+My class is called line. It takes in the values for the probability and converts
+them into coordinates for sfml. Additionally it creates the lines connecting the point
+and the points themselves. Creation of the class helped me put together most of the
+sfml code well, and allowed me to easy create the plots for both waves, this was much
+better than copy and pasting twice. 
+
+LIST DATA STRUCTURE
+I used a vector to represent and store the matrix values. I used a vector because it was the list 
+type I was more comfortable with.
+
+FILE I/O: 
+I used file io to input the value in the matrices. This use made it easy for the user to 
+understand where they were placing the value. Asking for a position would have been confusing
+and hard to understand for the user.
+
+REFLECTIONS:
+This project really helped me make sense of Grover's Algorithm. Quantum algorithms were much like a
+ black box to me, but now I am starting to make sense of how they work. My main take away is using 
+ limited size matrices to generate more efficient ways of solving problems that can lend itself to 
+ methods and algorithms that work well with Quantum computers. I think I can better understand quantum
+algorithms by using limited size matrices to see the effects of the algorithms. This is kinda like
+incremental development for learning. One thing I would change is how I implemented the matrices.
+Using an array with rows and columns would have been a better choice to represent them, but it
+would have been too much work to switch to arrays in the time allotted. Also, I would have also
+performed the algorithm for 2 values in matrix if I had the time. I left some of the functions
+that would have been used for that incase I decided to revisit the project.
